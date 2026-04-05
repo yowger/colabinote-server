@@ -1,10 +1,14 @@
-import { Server, onStoreDocumentPayload } from "@hocuspocus/server"
+import {
+    Server,
+    onLoadDocumentPayload,
+    onStoreDocumentPayload,
+} from "@hocuspocus/server"
 
 import {
     getDocumentByName,
     saveDocument,
 } from "./modules/documents/document.service"
-import { encodeState } from "./yjs/yjs.service"
+import { applyState, encodeState } from "./yjs/yjs.service"
 
 import {
     type onConnectPayload,
@@ -23,34 +27,29 @@ const server = new Server({
         console.log("socket Disconnected: ")
     },
 
-    async onLoadDocument({ documentName }) {
-        await getDocumentByName({ documentName })
+    async onLoadDocument({ documentName, document }: onLoadDocumentPayload) {
+        // const data = await getDocumentByName({ documentName })
+
+        // if (data) {
+        //     applyState(document, data)
+        // }
     },
 
     async afterLoadDocument() {
         console.log("document loaded")
     },
 
-    async onChange(data: onChangePayload) {
-        // const yNotes = data.document.getMap("notes")
-        // const notes = {}
-        // yNotes.forEach((yNote, id) => {
-        //     notes[id] = yNote.toJSON()
-        // })
-        // console.log("📦 notes:", notes)
-    },
+    async onChange(data: onChangePayload) {},
 
-    async onAwarenessUpdate(data) {
-        // console.log("awareness update", data)
-    },
+    async onAwarenessUpdate(data) {},
 
     async onStoreDocument({ documentName, document }: onStoreDocumentPayload) {
-        const update = Buffer.from(encodeState(document))
+        // const update = Buffer.from(encodeState(document))
 
-        await saveDocument({
-            documentName,
-            data: update,
-        })
+        // await saveDocument({
+        //     documentName,
+        //     data: update,
+        // })
     },
 })
 

@@ -4,6 +4,7 @@ import {
     timestamp,
     customType,
     index,
+    uuid,
 } from "drizzle-orm/pg-core"
 
 const bytea = customType<{ data: Buffer }>({
@@ -21,5 +22,21 @@ export const documents = pgTable(
     },
     (table) => ({
         updatedAtIdx: index("documents_updated_at_idx").on(table.updatedAt),
+    }),
+)
+
+export const boards = pgTable(
+    "boards",
+    {
+        id: uuid("id").primaryKey().defaultRandom(),
+
+        title: text("title").notNull().default("Untitled Board"),
+
+        createdAt: timestamp("created_at").defaultNow().notNull(),
+
+        updatedAt: timestamp("updated_at").defaultNow().notNull(),
+    },
+    (table) => ({
+        createdAtIdx: index("boards_created_at_idx").on(table.createdAt),
     }),
 )
