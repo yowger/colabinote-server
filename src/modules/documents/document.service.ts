@@ -12,10 +12,7 @@ export const getDocumentByName = async ({
         [documentName],
     )
 
-    if (result.rows[0]?.data) {
-        const uint8 = result.rows[0].data
-        return uint8
-    }
+    return result.rows[0]?.data ?? null
 }
 
 export type SaveDocumentPayload = {

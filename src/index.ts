@@ -1,6 +1,9 @@
 import { Server, onStoreDocumentPayload } from "@hocuspocus/server"
 
-import { saveDocument } from "./modules/documents/document.service"
+import {
+    getDocumentByName,
+    saveDocument,
+} from "./modules/documents/document.service"
 import { encodeState } from "./yjs/yjs.service"
 
 import {
@@ -18,6 +21,10 @@ const server = new Server({
 
     async onDisconnect(data: onDestroyPayload) {
         console.log("socket Disconnected: ")
+    },
+
+    async onLoadDocument({ documentName }) {
+        await getDocumentByName({ documentName })
     },
 
     async afterLoadDocument() {
