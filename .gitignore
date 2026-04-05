@@ -1,0 +1,34 @@
+.notes
+
+# Dependency directories
+node_modules/
+npm-debug.log
+
+# Environment variables file 
+.env
+!.env.example
+
+# Build output
+dist/
+build/
+
+# IDE or editor files
+.vscode/
+.idea/
+
+# Logs
+logs/
+*.log
+
+# OS or temporary files
+.DS_Store
+Thumbs.db
+
+# test coverage 
+coverage/
+
+.drizzle
+drizzle/
+
+.notes
+/notes
