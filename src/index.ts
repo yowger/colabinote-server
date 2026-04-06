@@ -1,61 +1,45 @@
-import {
-    Server,
-    onLoadDocumentPayload,
-    onStoreDocumentPayload,
-} from "@hocuspocus/server"
+import express from "express"
+import helmet from "helmet"
+import cors from "cors"
+import compression from "compression"
+import morgan from "morgan"
 
-import {
-    getDocumentByName,
-    saveDocument,
-} from "./modules/documents/document.service"
-import { applyState, encodeState } from "./yjs/yjs.service"
+import { hocusServer } from "./hocusfocus/hocuspocus"
+import boardsRouter from "./modules/boards/boards.routes"
+import { createCorsOptions } from "./config/cors"
+import { whitelist } from "./config/whitelist"
+import { errorHandler } from "./helpers/errorHandler"
+import { env } from "./config/env"
 
-import {
-    type onConnectPayload,
-    type onDestroyPayload,
-    type onChangePayload,
-} from "@hocuspocus/server"
+const app = express()
 
-const server = new Server({
-    port: 1234,
+app.use(express.json())
+app.use(helmet())
+app.use(cors(createCorsOptions(whitelist)))
+app.use(compression())
+app.use(morgan("dev"))
 
-    async onConnect(data: onConnectPayload) {
-        console.log("socket Connected: ")
-    },
+app.use("/boards", boardsRouter)
+app.use((req, res) => {
+    res.status(404).json({ message: "Not Found", path: req.originalUrl })
+})
+app.use(errorHandler)
 
-    async onDisconnect(data: onDestroyPayload) {
-        console.log("socket Disconnected: ")
-    },
-
-    async onLoadDocument({ documentName, document }: onLoadDocumentPayload) {
-        // const data = await getDocumentByName({ documentName })
-
-        // if (data) {
-        //     applyState(document, data)
-        // }
-    },
-
-    async afterLoadDocument() {
-        console.log("document loaded")
-    },
-
-    async onChange(data: onChangePayload) {},
-
-    async onAwarenessUpdate(data) {},
-
-    async onStoreDocument({ documentName, document }: onStoreDocumentPayload) {
-        // const update = Buffer.from(encodeState(document))
-
-        // await saveDocument({
-        //     documentName,
-        //     data: update,
-        // })
-    },
+app.listen(3000, () => {
+    console.log(`Server running on port ${env.PORT}`)
 })
 
-server.listen()
+hocusServer.listen()
+
+process.on("unhandledRejection", (error) => {
+    console.log("unhandledRejection", error)
+})
+
+process.on("uncaughtException", (error) => {
+    console.log("uncaughtException", error)
+})
 
 process.on("SIGINT", async () => {
-    await server.destroy()
+    await hocusServer.destroy()
     process.exit()
 })

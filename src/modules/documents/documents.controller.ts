@@ -1,36 +1,25 @@
 import { Request, Response } from "express"
+
 import * as documentsService from "./documents.service"
+import { getDocumentSchema, saveDocumentSchema } from "./documents.schema"
+import { requestValidator } from "../../helpers/requestValidator"
 
-export const getDocument = async (
-    req: Request<{ name: string }>,
-    res: Response,
-) => {
-    try {
-        const { name } = req.params
+const getDocumentValidator = requestValidator(getDocumentSchema)
+const saveDocumentValidator = requestValidator(saveDocumentSchema)
 
-        const data = await documentsService.getDocumentByName(name)
+export const getDocument = async (req: Request, res: Response) => {
+    const { name } = getDocumentValidator.getParams(req)
 
-        res.json({
-            name,
-            data,
-        })
-    } catch (err: any) {
-        res.status(400).json({ error: err.message })
-    }
+    const data = await documentsService.getDocumentByName(name)
+
+    res.json({ name, data })
 }
 
-export const saveDocument = async (
-    req: Request<{ name: string }>,
-    res: Response,
-) => {
-    try {
-        const { name } = req.params
-        const { data } = req.body
+export const saveDocument = async (req: Request, res: Response) => {
+    const { name } = saveDocumentValidator.getParams(req)
+    const { data } = saveDocumentValidator.getBody(req)
 
-        await documentsService.saveDocument(name, data)
+    await documentsService.saveDocument(name, data)
 
-        res.json({ success: true })
-    } catch (err: any) {
-        res.status(400).json({ error: err.message })
-    }
+    res.json({ success: true })
 }
