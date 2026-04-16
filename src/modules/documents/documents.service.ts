@@ -1,6 +1,9 @@
-import { getDocumentByNameQuery, saveDocumentQuery } from "./documents.model"
+import {
+    getDocumentByNameQuery,
+    saveDocumentQuery,
+    deleteDocumentQuery,
+} from "./documents.model"
 
-// GET document
 export const getDocumentByName = async (documentName: string) => {
     if (!documentName) {
         throw new Error("Document name is required")
@@ -19,4 +22,12 @@ export const saveDocument = async (documentName: string, data: Uint8Array) => {
     }
 
     await saveDocumentQuery(documentName, data)
+}
+
+export const deleteDocument = async (documentName: string) => {
+    if (!documentName) {
+        throw new Error("Document name is required")
+    }
+
+    await deleteDocumentQuery(documentName)
 }

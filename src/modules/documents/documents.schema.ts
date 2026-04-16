@@ -14,3 +14,9 @@ export const saveDocumentSchema = {
         data: z.array(z.number()).transform((arr) => new Uint8Array(arr)),
     }),
 }
+
+export const deleteDocumentSchema = {
+    params: z.object({
+        name: z.string(),
+    }),
+}

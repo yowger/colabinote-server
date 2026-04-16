@@ -19,7 +19,7 @@ app.use(cors(createCorsOptions(whitelist)))
 app.use(compression())
 app.use(morgan("dev"))
 
-app.use("/boards", boardsRouter)
+app.use("/api/boards", boardsRouter)
 app.use((req, res) => {
     res.status(404).json({ message: "Not Found", path: req.originalUrl })
 })

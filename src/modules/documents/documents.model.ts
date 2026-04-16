@@ -31,3 +31,9 @@ export const saveDocumentQuery = async (
         [documentName, data],
     )
 }
+
+export const deleteDocumentQuery = async (
+    documentName: string,
+): Promise<void> => {
+    await pool.query(`DELETE FROM documents WHERE name = $1`, [documentName])
+}
