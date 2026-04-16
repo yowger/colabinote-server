@@ -2,7 +2,7 @@ import { Request, Response } from "express"
 
 import * as documentsService from "./documents.service"
 import { getDocumentSchema, saveDocumentSchema } from "./documents.schema"
-import { requestValidator } from "../../helpers/requestValidator"
+import { requestValidator } from "../../utils/requestValidator"
 
 const getDocumentValidator = requestValidator(getDocumentSchema)
 const saveDocumentValidator = requestValidator(saveDocumentSchema)

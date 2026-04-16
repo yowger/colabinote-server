@@ -1,7 +1,7 @@
 import { Request, Response } from "express"
 
 import * as boardsService from "./boards.service"
-import { requestValidator } from "../../helpers/requestValidator"
+import { requestValidator } from "../../utils/requestValidator"
 import { deleteBoardSchema, updateBoardSchema } from "./boards.schema"
 
 const updateBoardValidator = requestValidator(updateBoardSchema)

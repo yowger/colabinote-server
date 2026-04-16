@@ -31,9 +31,9 @@ export const hocusServer = new Server({
         const data = await getDocumentByName(documentName)
         if (data) {
             applyUpdate(document, data)
-            console.log("✅ document hydrated from DB")
+            console.log("document hydrated from DB")
         } else {
-            console.log("🆕 new empty document")
+            console.log("new empty document")
         }
     },
 

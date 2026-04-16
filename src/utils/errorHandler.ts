@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express"
-import { ValidationException } from "../helpers/errorClass"
+import { ValidationException } from "./errorClass"
 
 export function errorHandler(
     err: Error,

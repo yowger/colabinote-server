@@ -1,7 +1,7 @@
 import { Router } from "express"
 
 import * as boardsController from "./boards.controller"
-import { asyncHandler } from "../../helpers/asyncHandler"
+import { asyncHandler } from "../../utils/asyncHandler"
 
 const router = Router()
 

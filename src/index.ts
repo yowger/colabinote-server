@@ -8,7 +8,7 @@ import { hocusServer } from "./hocusfocus/hocuspocus"
 import boardsRouter from "./modules/boards/boards.routes"
 import { createCorsOptions } from "./config/cors"
 import { whitelist } from "./config/whitelist"
-import { errorHandler } from "./helpers/errorHandler"
+import { errorHandler } from "./utils/errorHandler"
 import { env } from "./config/env"
 
 const app = express()
