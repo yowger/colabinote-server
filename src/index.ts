@@ -25,7 +25,7 @@ app.use((req, res) => {
 })
 app.use(errorHandler)
 
-app.listen(3000, () => {
+app.listen(env.PORT, () => {
     console.log(`Server running on port ${env.PORT}`)
 })
 

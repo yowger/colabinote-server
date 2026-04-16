@@ -9,6 +9,7 @@ import {
     getDocumentByName,
     saveDocument,
 } from "../modules/documents/documents.service"
+import { env } from "../config/env"
 
 import {
     type onConnectPayload,
@@ -17,7 +18,7 @@ import {
 } from "@hocuspocus/server"
 
 export const hocusServer = new Server({
-    port: 1234,
+    port: env.HOCUSFOCUS_PORT,
 
     async onConnect(data: onConnectPayload) {
         console.log("socket Connected: ")
