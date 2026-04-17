@@ -1,4 +1,5 @@
 import express from "express"
+import expressWs from "express-ws"
 import helmet from "helmet"
 import cors from "cors"
 import compression from "compression"
@@ -11,7 +12,15 @@ import { whitelist } from "./config/whitelist"
 import { errorHandler } from "./utils/errorHandler"
 import { env } from "./config/env"
 
-const app = express()
+const { app } = expressWs(express())
+
+app.ws("/collaboration", (websocket, request, context) => {
+    console.log(
+        `New connection attempt from ${request.ip} at ${new Date().toISOString()}`,
+    )
+
+    hocusServer.handleConnection(websocket, request, context)
+})
 
 app.use(express.json())
 app.use(helmet())
@@ -29,8 +38,6 @@ app.listen(env.PORT, () => {
     console.log(`Server running on port ${env.PORT}`)
 })
 
-hocusServer.listen()
-
 process.on("unhandledRejection", (error) => {
     console.log("unhandledRejection", error)
 })
@@ -40,6 +47,5 @@ process.on("uncaughtException", (error) => {
 })
 
 process.on("SIGINT", async () => {
-    await hocusServer.destroy()
     process.exit()
 })

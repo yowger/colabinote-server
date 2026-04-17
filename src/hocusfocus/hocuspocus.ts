@@ -1,5 +1,5 @@
 import {
-    Server,
+    Hocuspocus,
     onLoadDocumentPayload,
     onStoreDocumentPayload,
 } from "@hocuspocus/server"
@@ -9,7 +9,6 @@ import {
     getDocumentByName,
     saveDocument,
 } from "../modules/documents/documents.service"
-import { env } from "../config/env"
 
 import {
     type onConnectPayload,
@@ -17,9 +16,7 @@ import {
     type onChangePayload,
 } from "@hocuspocus/server"
 
-export const hocusServer = new Server({
-    port: env.HOCUSFOCUS_PORT,
-
+export const hocusServer = new Hocuspocus({
     async onConnect(data: onConnectPayload) {
         console.log("socket Connected: ")
     },
