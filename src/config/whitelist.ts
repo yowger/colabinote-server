@@ -1,1 +1,3 @@
-export const whitelist = ["http://localhost:3000", "http://localhost:5173"]
+import { env } from "./env"
+
+export const whitelist = env.CORS_WHITELIST
